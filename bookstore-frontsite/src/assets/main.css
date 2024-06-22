@@ -1,0 +1,22 @@
+@import './base.css';
+
+#app {
+  max-width: 1280px;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.router-link-active {
+  font-weight: bold !important;
+}
+
+.btn-primary {
+  background-color: #f9dec9 !important;
+  color: #3a405a !important;
+  border-color: #3a405a !important;
+}
+
+.my-text-bg-primary {
+  background-color: #f9dec9 !important;
+  color: #3a405a !important;
+}

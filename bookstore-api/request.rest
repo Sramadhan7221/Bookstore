@@ -1,0 +1,50 @@
+POST http://127.0.0.1:5000/register
+Content-Type: application/json
+
+{
+    "name" : "Syahrul Ramadhan",
+    "email" : "syahrul@email.com",
+    "gender" : "MALE",
+    "password": "syahrul@dev123"
+}
+
+###
+POST http://127.0.0.1:5000/login
+Content-Type: application/json
+
+{
+    "email" : "syahrul@email.com",
+    "password" : "syahrul@dev123"
+}
+
+###
+POST http://127.0.0.1:5000/logout
+
+###
+GET http://127.0.0.1:5000/users
+
+###
+GET http://127.0.0.1:5000/users/1
+
+###
+POST http://127.0.0.1:5000/users
+Content-Type: application/json
+
+{
+    "name" : "James",
+    "email" : "james@email.com",
+    "gender" : "MALE"
+}
+
+###
+PUT http://127.0.0.1:5000/users/1
+Content-Type: application/json
+
+{
+    "name" : "Syahrul Ramadhan",
+    "email" : "sramadhan72@email.com",
+    "gender" : "MALE"
+}
+
+###
+DELETE http://127.0.0.1:5000/users/3
