@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "sequelize": "sequelize"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-redis": "^7.1.1",
@@ -9,5 +12,8 @@
     "mysql2": "^3.10.1",
     "redis": "^4.6.14",
     "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.2"
   }
 }

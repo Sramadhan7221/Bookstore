@@ -8,7 +8,10 @@ const BookRouter = require('./routes/BookRoute.js');
 const FileUpload = require('express-fileupload');
 
 const app = express();
-const redisClient = redis.createClient();
+const redisClient = redis.createClient({
+    host: 'redis', 
+    port: 6379,
+});
 redisClient.connect().catch(console.error);
 const port = 5000;
 app.use(cors());

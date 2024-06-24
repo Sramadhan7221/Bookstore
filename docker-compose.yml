@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  # MySQL Master
+  mysql-master:
+    image: mysql:8.0
+    container_name: mysql-master
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: bookstore_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-master-data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password --server-id=1 --log-bin=mysql-bin --binlog-format=ROW
+
+  # MySQL Slave 1
+  mysql-slave1:
+    image: mysql:8.0
+    container_name: mysql-slave1
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: bookstore_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-slave1-data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password --server-id=2 --relay-log=relay-bin --log-bin=mysql-bin --binlog-format=ROW
+    depends_on:
+      - mysql-master
+
+  # MySQL Slave 2
+  mysql-slave2:
+    image: mysql:8.0
+    container_name: mysql-slave2
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: bookstore_db
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-slave2-data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password --server-id=3 --relay-log=relay-bin --log-bin=mysql-bin --binlog-format=ROW
+    depends_on:
+      - mysql-master
+
+  # Redis
+  redis:
+    image: redis:6.2
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  # MongoDB
+  mongodb:
+    image: mongo:4.4
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+
+  # Node.js (Express.js)
+  nodejs:
+    build:
+      context: ./backend
+    container_name: nodejs
+    volumes:
+      - ./backend:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql-master
+      - mysql-slave1
+      - mysql-slave2
+      - redis
+      - mongodb
+
+  # Vue.js (Frontend)
+  vuejs:
+    build:
+      context: ./frontend
+    container_name: vuejs
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - nodejs
+
+volumes:
+  mysql-master-data:
+  mysql-slave1-data:
+  mysql-slave2-data:
+  redis-data:
+  mongodb-data:
